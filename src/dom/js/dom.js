@@ -1,8 +1,8 @@
 (function(Y) {
-/** 
+/**
  * The DOM utility provides a cross-browser abtraction layer
  * normalizing DOM tasks, and adds extra helper functionality
- * for other common tasks. 
+ * for other common tasks.
  * @module dom
  * @submodule dom-base
  * @for DOM
@@ -35,10 +35,10 @@ var NODE_TYPE = 'nodeType',
 Y.DOM = {
     /**
      * Returns the HTMLElement with the given ID (Wrapper for document.getElementById).
-     * @method byId         
-     * @param {String} id the id attribute 
-     * @param {Object} doc optional The document to search. Defaults to current document 
-     * @return {HTMLElement | null} The HTMLElement with the id, or null if none found. 
+     * @method byId
+     * @param {String} id the id attribute
+     * @param {Object} doc optional The document to search. Defaults to current document
+     * @return {HTMLElement | null} The HTMLElement with the id, or null if none found.
      */
     byId: function(id, doc) {
         // handle dupe IDs and IE name collision
@@ -50,7 +50,7 @@ Y.DOM = {
         var ret = [];
         if (node) {
             tag = tag || '*';
-            ret = Y.Selector.query('> ' + tag, node); 
+            ret = Y.Selector.query('> ' + tag, node);
         }
         return ret;
     },
@@ -68,9 +68,9 @@ Y.DOM = {
     },
 
     /**
-     * Returns the text content of the HTMLElement. 
-     * @method getText         
-     * @param {HTMLElement} element The html element. 
+     * Returns the text content of the HTMLElement.
+     * @method getText
+     * @param {HTMLElement} element The html element.
      * @return {String} The text content of the element (includes text of any descending elements).
      */
     getText: (documentElement.textContent !== undefined) ?
@@ -89,10 +89,10 @@ Y.DOM = {
         },
 
     /**
-     * Sets the text content of the HTMLElement. 
-     * @method setText         
-     * @param {HTMLElement} element The html element. 
-     * @param {String} content The content to add. 
+     * Sets the text content of the HTMLElement.
+     * @method setText
+     * @param {HTMLElement} element The html element.
+     * @param {String} content The content to add.
      */
     setText: (documentElement.textContent !== undefined) ?
         function(element, content) {
@@ -114,7 +114,7 @@ Y.DOM = {
      * The optional function is passed the current DOM node being tested as its only argument.
      * If no function is given, the first sibling is returned.
      * @param {Boolean} all optional Whether all node types should be scanned, or just element nodes.
-     * @return {HTMLElement | null} The matching DOM node or null if none found. 
+     * @return {HTMLElement | null} The matching DOM node or null if none found.
      */
     previous: function(element, fn, all) {
         return Y.DOM.elementByAxis(element, PREVIOUS_SIBLING, fn, all);
@@ -129,7 +129,7 @@ Y.DOM = {
      * The optional function is passed the current DOM node being tested as its only argument.
      * If no function is given, the first sibling is returned.
      * @param {Boolean} all optional Whether all node types should be scanned, or just element nodes.
-     * @return {HTMLElement | null} The matching DOM node or null if none found. 
+     * @return {HTMLElement | null} The matching DOM node or null if none found.
      */
     next: function(element, fn, all) {
         return Y.DOM.elementByAxis(element, NEXT_SIBLING, fn, all);
@@ -142,8 +142,8 @@ Y.DOM = {
      * @param {Function} fn optional An optional boolean test to apply.
      * The optional function is passed the current DOM node being tested as its only argument.
      * If no function is given, the parentNode is returned.
-     * @param {Boolean} testSelf optional Whether or not to include the element in the scan 
-     * @return {HTMLElement | null} The matching DOM node or null if none found. 
+     * @param {Boolean} testSelf optional Whether or not to include the element in the scan
+     * @return {HTMLElement | null} The matching DOM node or null if none found.
      */
     ancestor: function(element, fn, testSelf) {
         var ret = null;
@@ -190,10 +190,10 @@ Y.DOM = {
             if (Y.UA.opera || needle[NODE_TYPE] === 1) { // IE & SAF contains fail if needle not an ELEMENT_NODE
                 ret = element[CONTAINS](needle);
             } else {
-                ret = Y.DOM._bruteContains(element, needle); 
+                ret = Y.DOM._bruteContains(element, needle);
             }
         } else if (element[COMPARE_DOCUMENT_POSITION]) { // gecko
-            if (element === needle || !!(element[COMPARE_DOCUMENT_POSITION](needle) & 16)) { 
+            if (element === needle || !!(element[COMPARE_DOCUMENT_POSITION](needle) & 16)) {
                 ret = true;
             }
         }
@@ -206,7 +206,7 @@ Y.DOM = {
      * @method inDoc
      * @param {HTMLElement} element The containing html element.
      * @param {HTMLElement} doc optional The document to check.
-     * @return {Boolean} Whether or not the element is attached to the document. 
+     * @return {Boolean} Whether or not the element is attached to the document.
      */
     inDoc: function(element, doc) {
         var ret = false,
@@ -255,16 +255,16 @@ Y.DOM = {
         } else {
             ret = [Y.DOM._getDoc(root).getElementById(id)];
         }
-    
+
         return ret;
    },
 
     /**
-     * Creates a new dom node using the provided markup string. 
+     * Creates a new dom node using the provided markup string.
      * @method create
      * @param {String} html The markup used to create the element
-     * @param {HTMLDocument} doc An optional document context 
-     * @return {HTMLElement|DocumentFragment} returns a single HTMLElement 
+     * @param {HTMLDocument} doc An optional document context
+     * @return {HTMLElement|DocumentFragment} returns a single HTMLElement
      * when creating one node, and a documentFragment when creating
      * multiple nodes.
      */
@@ -298,7 +298,7 @@ Y.DOM = {
                 if (nodes.length === 2) {
                     ret = nodes[0].nextSibling;
                 } else {
-                    nodes[0].parentNode.removeChild(nodes[0]); 
+                    nodes[0].parentNode.removeChild(nodes[0]);
                      ret = Y.DOM._nl2frag(nodes, doc);
                 }
             } else { // return multiple nodes as a fragment
@@ -314,7 +314,7 @@ Y.DOM = {
             i, len;
 
         if (nodes && (nodes.push || nodes.item) && nodes[0]) {
-            doc = doc || nodes[0].ownerDocument; 
+            doc = doc || nodes[0].ownerDocument;
             ret = doc.createDocumentFragment();
 
             if (nodes.item) { // convert live list to static array
@@ -322,7 +322,7 @@ Y.DOM = {
             }
 
             for (i = 0, len = nodes.length; i < len; i++) {
-                ret.appendChild(nodes[i]); 
+                ret.appendChild(nodes[i]);
             }
         } // else inline with log for minification
         else { Y.log('unable to convert ' + nodes + ' to fragment', 'warn', 'dom'); }
@@ -339,7 +339,7 @@ Y.DOM = {
     },
 
     /**
-     * Provides a normalized attribute interface. 
+     * Provides a normalized attribute interface.
      * @method setAttibute
      * @param {String | HTMLElement} el The target element for the attribute.
      * @param {String} attr The attribute to set.
@@ -355,11 +355,11 @@ Y.DOM = {
 
 
     /**
-     * Provides a normalized attribute interface. 
+     * Provides a normalized attribute interface.
      * @method getAttibute
      * @param {String | HTMLElement} el The target element for the attribute.
      * @param {String} attr The attribute to get.
-     * @return {String} The current value of the attribute. 
+     * @return {String} The current value of the attribute.
      */
     getAttribute: function(el, attr, ieAttr) {
         ieAttr = (ieAttr !== undefined) ? ieAttr : 2;
@@ -402,10 +402,10 @@ Y.DOM = {
     },
 
     /**
-     * Inserts content in a node at the given location 
+     * Inserts content in a node at the given location
      * @method addHTML
      * @param {HTMLElement} node The node to insert into
-     * @param {String | HTMLElement} content The content to be inserted 
+     * @param {String | HTMLElement} content The content to be inserted
      * @param {String | HTMLElement} where Where to insert the content
      * If no "where" is given, content is appended to the node
      * Possible values for "where"
@@ -425,7 +425,7 @@ Y.DOM = {
     addHTML: function(node, content, where) {
         var nodeParent = node.parentNode,
             newNode;
-            
+
         if (content !== undefined && content !== null) {
             if (content.nodeType) { // domNode
                 newNode = content;
@@ -551,7 +551,7 @@ Y.DOM = {
 
 // TODO: move to Lang?
     /**
-     * Memoizes dynamic regular expressions to boost runtime performance. 
+     * Memoizes dynamic regular expressions to boost runtime performance.
      * @method _getRegExp
      * @private
      * @param {String} str The string to convert to a regular expression.
@@ -573,7 +573,7 @@ Y.DOM = {
      * @method _getDoc
      * @private
      * @param {HTMLElement} element optional Target element.
-     * @return {Object} The document for the given element or the default document. 
+     * @return {Object} The document for the given element or the default document.
      */
     _getDoc: function(element) {
         var doc = Y.config.doc;
@@ -592,7 +592,7 @@ Y.DOM = {
      * @method _getWin
      * @private
      * @param {HTMLElement} element optional Target element.
-     * @return {Object} The window for the given element or the default window. 
+     * @return {Object} The window for the given element or the default window.
      */
     _getWin: function(element) {
         var doc = Y.DOM._getDoc(element);
@@ -687,7 +687,30 @@ Y.DOM = {
         Y.DOM.creators.col = Y.DOM.creators.link = Y.DOM.creators.style = Y.DOM.creators.script;
     }
 
-    if (Y.UA.gecko || Y.UA.ie) {
+    if (Y.UA.chrome > 6) {
+        Y.mix(creators, {
+            tbody: function(html, doc) {
+                var node = create(TABLE_OPEN + html + TABLE_CLOSE, doc);
+                if (node.childNodes.length > 1) {
+                    return node.lastChild;
+                } else {
+                    return node;
+                }
+            },
+
+            thead: function(html, doc) {
+                return create(TABLE_OPEN + html + TABLE_CLOSE, doc);
+            }
+        });
+        Y.mix(creators, {
+            tfoot: creators.thead,
+            caption: creators.thead,
+            colgroup: creators.thead,
+            col: creators.thead
+        });
+    }
+
+    if (Y.UA.gecko || Y.UA.ie || Y.UA.chrome > 6) {
         Y.mix(creators, {
             option: function(html, doc) {
                 return create('<select><option class="yui3-big-dummy" selected></option>' + html + '</select>', doc);
@@ -699,7 +722,7 @@ Y.DOM = {
 
             td: function(html, doc) {
                 return create('<tr>' + html + '</tr>', doc);
-            }, 
+            },
 
             tbody: function(html, doc) {
                 return create(TABLE_OPEN + html + TABLE_CLOSE, doc);
